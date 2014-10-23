@@ -7,6 +7,7 @@ var express = require('express');
 var _ = require('lodash');
 var loggers = require('proteus-logger');
 var pkginfo = JSON.parse(fs.readFileSync(require('path').join(__dirname, 'package.json'), 'utf8'));
+var path = require('path');
 
 var program = require('commander');
 program
@@ -18,7 +19,7 @@ program
 
 var config = require('./balmung-config.js');
 if (program.config) {
-  _.each(require(program.config), function(value, name) {
+  _.each(require(path.resolve(program.config)), function(value, name) {
     config[name] = value;
   });
 }
@@ -38,6 +39,8 @@ if (process.env.NODE_ENV === 'test') {
   // disable logger
   process.env.DISABLE_PROTEUS_LOGGER = true;
 }
+
+loggers.get().info('config:', JSON.stringify(config, null, 4));
 
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
