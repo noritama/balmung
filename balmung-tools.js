@@ -34,14 +34,14 @@ module.exports = function(opts) {
   if (srcdir && dstdir) {
     config.work = dstdir;
     ['src', 'dst', 'work'].forEach(function(name){
-      dirs.add(name, config[name]);
+      dirs.add(name, config[name], config);
     });
   } else {
     // configure directories
-    dirs.add('src', path.join(datadir, 'src'));
+    dirs.add('src', path.join(datadir, 'src'), config);
     // work and dst are same in tools
-    dirs.add('work', path.join(datadir, 'dst'));
-    dirs.add('dst', path.join(datadir, 'dst'));
+    dirs.add('work', path.join(datadir, 'dst'), config);
+    dirs.add('dst', path.join(datadir, 'dst'), config);
   }
 
   // settings
