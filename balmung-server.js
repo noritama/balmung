@@ -50,6 +50,13 @@ io.set('log level', 1);
 
 app.use(express.cookieParser());
 app.use(express.json());
+
+if (config.auth && config.auth.basic && config.auth.basic.use) {
+  app.use(express.basicAuth(function(id, password) {
+    return id === config.auth.basic.id && password === config.auth.basic.password;
+  }));
+}
+
 app.use(app.router);
 app.use(express.static(__dirname + '/public'));
 
